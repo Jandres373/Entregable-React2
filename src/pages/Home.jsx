@@ -19,7 +19,7 @@ import {
   HStack,
   useMediaQuery,
 } from "@chakra-ui/react";
-import Scene from "../components/Scene";
+/* import Scene from "../components/Scene"; */
 import { useAuthContext } from "../context/UserContext";
 import { useEffect, useState } from "react";
 import { GoCloud, GoLocation, GoMoveToBottom,  } from "react-icons/go";
@@ -147,7 +147,7 @@ const Home = () => {
                 </Center>
                 <Center>
                   {" "}
-                  <Scene size={"200px"} />
+                  {/* <Scene size={"200px"} /> */}
                 </Center>
                 <Box display="flex" justifyContent="center" gap="130px">
                   <Box className="weather img">
