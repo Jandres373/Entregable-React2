@@ -2,9 +2,10 @@
 import React, { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { Box } from "@chakra-ui/react";
+import Model3d from "../assets/Earth_2.glb"
 
 export function Model(props) {
-  const { nodes, materials } = useGLTF("../src/assets/Earth_2.glb");
+  const { nodes, materials } = useGLTF(Model3d);
   return (
     <Box as="group" {...props} dispose={null} borderRadius='50%' >
       <mesh
@@ -17,4 +18,4 @@ export function Model(props) {
   );
 }
 
-useGLTF.preload("../src/assets/Earth_2.glb");
+useGLTF.preload(Model3d);
