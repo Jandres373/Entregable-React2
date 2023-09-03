@@ -1,8 +1,13 @@
-# React + Vite
+# ENTREGABLE REACT 2
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Librerias, plugins y/o complementos:
 
-Currently, two official plugins are available:
+Se hace uso de: 
+1) Axios,
+2) Chakra UI para el styling,
+3) Framer motion para animar,
+4) react router v6 para la gestion de rutas y rutas protegidas (esto no hace parte de los requerimientos de este entregable, sin embargo, apuntando al portafolio se implementará sobre este mismo proyecto mejoras a futuro para hacerlo más robusto y con mayores utilidades, por lo que se usarán diferentes rutas para desplegar varios tipos de contenido)
+5) firebase para administrar sesiones de usuario y Auth.
+6) librerías de iconos como react icons.
+7) react three fiber para animaciones y manejo de figuras en 3d.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
