@@ -17,6 +17,7 @@ const UserProvider = ({ children }) => {
   const [countryData, setCountryData] = useState();
   const [contrast,setContrast] = useState(false)
   const [isPlaceAvail, setIsPlaceAvail] = useState(true)
+  const [isLocationAvail,setIsLocationAvail] = useState(true)
 
   const usersLocation = () => {
     setIsShowingData(false);
@@ -33,10 +34,16 @@ const UserProvider = ({ children }) => {
       setTimeout(() => {
         setIsShowingData(true);
       }, 500);
+      
     }
     function error(err) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
-      return "error papa";
+      console.log('no has dado permiso')
+      setIsLocationAvail(false)
+       setTimeout(() => {
+        setIsLocationAvail(true)
+      }, 5000) ;
+      return error
     }
     navigator.geolocation.getCurrentPosition(success, error, options);
   };
@@ -112,7 +119,8 @@ const UserProvider = ({ children }) => {
        countryData,
        contrast,
        setContrast,
-       isPlaceAvail
+       isPlaceAvail,
+       isLocationAvail
       }}
     >
       {children}

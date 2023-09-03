@@ -298,7 +298,7 @@ const Home = () => {
                     <form
                       name="citySearch"
                       onSubmit={(e) => searchByLocation(e, place)}
-                      style={{ width: "90%", display: "flex" }}
+                      style={{ width: "100%", display: "flex" }}
                     >
                       <InputGroup w="80%">
                         <InputLeftElement

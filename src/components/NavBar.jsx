@@ -1,6 +1,7 @@
 import {
   Box,
   Button,
+  Circle,
   HStack,
   Icon,
   Spinner,
@@ -30,6 +31,7 @@ const NavBar = ({ data }) => {
     weather,
     isShowingData,
     contrast,
+    isLocationAvail,
   } = useAuthContext();
   const navigate = useNavigate();
 
@@ -69,7 +71,7 @@ const NavBar = ({ data }) => {
         as={"nav"}
         display="flex"
         justifyContent="space-between"
-        color={contrast ? 'black' : 'white'}
+        color={contrast ? "black" : "white"}
       >
         {" "}
         {isLargeScreen ? (
@@ -83,15 +85,9 @@ const NavBar = ({ data }) => {
               display="flex"
               justifyContent="space-evenly"
               alignItems="center"
-              
               backdropFilter="blur(5px)"
             >
-              <Box
-                className="Logo"
-                
-                fontSize="25px"
-                fontWeight="bold"
-              >
+              <Box className="Logo" fontSize="25px" fontWeight="bold">
                 Weather J.M
               </Box>
               <Box as={NavLink} to="/">
@@ -138,6 +134,19 @@ const NavBar = ({ data }) => {
                   </Button>
                 )}
               </HStack>
+              {isLocationAvail===false && (
+                <Box
+                  position="absolute"
+                  top="50px"
+                  fontSize="15px"
+                  fontWeight="bold"
+                >
+                  {" "}
+                  <Text color="red" lineHeight="1">
+                    permission denied: Unable to provide data based on GPS
+                  </Text>
+                </Box>
+              )}
             </Box>
           </>
         ) : (
@@ -157,7 +166,7 @@ const NavBar = ({ data }) => {
           >
             <Box
               className="Logo"
-              color={contrast ? 'black' : 'white'}
+              color={contrast ? "black" : "white"}
               fontSize="25px"
               fontWeight="bold"
             >
@@ -182,8 +191,20 @@ const NavBar = ({ data }) => {
                   </>
                 )}
               </Button>
+              {isLocationAvail===false && (
+                <Box
+                  position="absolute"
+                  top="50px"
+                  fontSize="15px"
+                  fontWeight="bold"
+                >
+                  {" "}
+                  <Text color="red" lineHeight="1">
+                    permission denied
+                  </Text>
+                </Box>
+              )}
               <PopOver />
-              
             </Box>
           </Box>
         )}
