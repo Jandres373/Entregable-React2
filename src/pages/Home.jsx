@@ -18,6 +18,7 @@ import {
   InputRightElement,
   HStack,
   useMediaQuery,
+  FormControl,
 } from "@chakra-ui/react";
 import Scene from "../components/Scene";
 import { useAuthContext } from "../context/UserContext";
@@ -95,7 +96,8 @@ const Home = () => {
                 </Tabs>
 
                 <Box className="inputContainer" display="flex" w="400px">
-                  <InputGroup w="80%">
+                 <form name="citySearch" onSubmit={(e) => searchByLocation(e,place)} style={{width:'90%', display:'flex'}}>
+                 <InputGroup w="80%">
                     <InputLeftElement
                       pointerEvents="none"
                       children={<GoLocation color="gray.300" />}
@@ -111,6 +113,7 @@ const Home = () => {
                       w="95%"
                       type="text"
                       placeholder="Buscar por ubicación"
+                      _placeholder={{color:'white'}}
                       value={place}
                       onChange={handleOnChange}
                       list="countries"
@@ -121,9 +124,10 @@ const Home = () => {
                       ))}
                     </datalist>
                   </InputGroup>
-                  <Button ml="5px" onClick={() => searchByLocation(place)}>
+                  <Button ml="5px" w='20%' onClick={(e) => searchByLocation(e,place)}>
                     Search
                   </Button>
+                 </form>
                 </Box>
               </Box>
 
@@ -232,7 +236,7 @@ const Home = () => {
                   display="flex"
                   w="100%"
                 >
-                  <InputGroup w="80%" color='white'>
+                  <form name="citySearch" onSubmit={(e) => searchByLocation(e,place)} style={{width:'90%', display:'flex'}}><InputGroup w="80%" color='white'>
                     <InputLeftElement
                       pointerEvents="none"
                       children={<GoLocation color="gray.300" />}
@@ -248,6 +252,7 @@ const Home = () => {
                       w="95%"
                       type="text"
                       placeholder="Buscar por ubicación"
+                      _placeholder={{color:'white'}}
                       value={place}
                       onChange={handleOnChange}
                       list="countries"
@@ -260,7 +265,8 @@ const Home = () => {
                   </InputGroup>
                   <Button ml="5px" onClick={() => searchByLocation(place)}>
                     Search
-                  </Button>
+                  </Button></form>
+                  
                 </Box>
 
                 <Box

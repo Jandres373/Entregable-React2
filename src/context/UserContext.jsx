@@ -39,7 +39,8 @@ const UserProvider = ({ children }) => {
     navigator.geolocation.getCurrentPosition(success, error, options);
   };
 
-  const searchByLocation = async (place) => { 
+  const searchByLocation = async (e,place) => { 
+    e.preventDefault()
     const apiKey = import.meta.env.VITE_WEATHERAPP_APP_ID;
     const city = place;
     try {
