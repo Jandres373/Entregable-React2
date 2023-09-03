@@ -285,7 +285,7 @@ const Home = () => {
                   </Center>
                   <Center>
                     {" "}
-                    <Scene size={"200px"} />
+                  {/*   <Scene size={"200px"} /> */}
                   </Center>
                   <Box display="flex" justifyContent="center" gap="100px">
                     <Box className="weather img">
