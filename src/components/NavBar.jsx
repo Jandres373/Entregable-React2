@@ -29,6 +29,7 @@ const NavBar = ({ data }) => {
     usersLocation,
     weather,
     isShowingData,
+    contrast,
   } = useAuthContext();
   const navigate = useNavigate();
 
@@ -68,6 +69,7 @@ const NavBar = ({ data }) => {
         as={"nav"}
         display="flex"
         justifyContent="space-between"
+        color={contrast ? 'black' : 'white'}
       >
         {" "}
         {isLargeScreen ? (
@@ -81,12 +83,12 @@ const NavBar = ({ data }) => {
               display="flex"
               justifyContent="space-evenly"
               alignItems="center"
-              color="white"
+              
               backdropFilter="blur(5px)"
             >
               <Box
                 className="Logo"
-                color="white"
+                
                 fontSize="25px"
                 fontWeight="bold"
               >
@@ -139,7 +141,8 @@ const NavBar = ({ data }) => {
             </Box>
           </>
         ) : (
-          // se hace el despliegue del interfaz menor a 904 px
+          //** */ se hace el despliegue del interfaz menor a 904 px
+          //~~ */ se hace el despliegue del interfaz menor a 904 px
           <Box
             bgColor="transparent"
             w="100vw"
@@ -154,7 +157,7 @@ const NavBar = ({ data }) => {
           >
             <Box
               className="Logo"
-              color="white"
+              color={contrast ? 'black' : 'white'}
               fontSize="25px"
               fontWeight="bold"
             >

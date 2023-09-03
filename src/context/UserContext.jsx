@@ -15,6 +15,8 @@ const UserProvider = ({ children }) => {
   const [isShowingData, setIsShowingData] = useState(true);
   const [weatherDataLoaded, setWeatherDataLoaded] = useState(false);
   const [countryData, setCountryData] = useState();
+  const [contrast,setContrast] = useState(false)
+  const [isPlaceAvail, setIsPlaceAvail] = useState(true)
 
   const usersLocation = () => {
     setIsShowingData(false);
@@ -52,8 +54,10 @@ const UserProvider = ({ children }) => {
         lon: data.data.coord.lon,
       };
       setLocation(newLocation);
+      setIsPlaceAvail(true)
     } catch (error) {
       console.error("Hubo un error al obtener los datos del clima:", error);
+      setIsPlaceAvail(false)
       throw error;
     }
   }
@@ -106,6 +110,9 @@ const UserProvider = ({ children }) => {
         setWeather,
         isShowingData,
        countryData,
+       contrast,
+       setContrast,
+       isPlaceAvail
       }}
     >
       {children}

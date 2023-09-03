@@ -19,18 +19,21 @@ import {
   HStack,
   useMediaQuery,
   FormControl,
+  FormHelperText,
+  Circle,
 } from "@chakra-ui/react";
 import Scene from "../components/Scene";
 import { useAuthContext } from "../context/UserContext";
 import { useEffect, useState } from "react";
-import { GoCloud, GoLocation, GoMoveToBottom,  } from "react-icons/go";
+import { GoCloud, GoLocation, GoMoveToBottom } from "react-icons/go";
 import { objImages } from "../config/images";
 import { LiaWindSolid, LiaWindowCloseSolid } from "react-icons/lia";
 import countries from "../config/countries.json";
 
 const Home = () => {
   const [isLargeScreen] = useMediaQuery("(min-width: 904px)");
-  const { searchByLocation, weather, countryData } = useAuthContext();
+  const { searchByLocation, weather, countryData, contrast, isPlaceAvail } =
+    useAuthContext();
   const [place, setPlace] = useState("");
   const [units, setUnits] = useState("c");
   const [temp, setTemp] = useState(null);
@@ -67,11 +70,16 @@ const Home = () => {
               paddingX="50px"
               backdropFilter="blur(0px)"
             >
-              <Box w="20%" color="white" px="25px" py="100px">
+              <Box
+                w="20%"
+                color={contrast ? "black" : "white"}
+                px="25px"
+                py="100px"
+              >
                 <Tabs variant="unstyled" backdropBlur={"25px"}>
                   <TabList>
                     <Tab>Place</Tab>
-                    <Tab>Temperature</Tab>
+                    <Tab>Info</Tab>
                     <Tab>Forecast</Tab>
                   </TabList>
                   <TabIndicator
@@ -90,44 +98,88 @@ const Home = () => {
                       </HStack>
                       <Heading mt="20px" fontSize="45px"></Heading>
                     </TabPanel>
-                    <TabPanel>{weather.main.temp} °C </TabPanel>
-                    <TabPanel>unavailable yet</TabPanel>
+                    <TabPanel>
+                      {countryData && (
+                        <>
+                          {" "}
+                          <Heading fontSize="20px">Country info</Heading>
+                          <br />
+                          <Text>Nam: {countryData.name.common} </Text>
+                          <Text>Pop: {countryData.population} </Text>
+                          <Text>cap: {countryData.capital} </Text>
+                          <Text>
+                            lan: {Object.keys(countryData.languages)}{" "}
+                          </Text>
+                          <Text>
+                            cur: {Object.keys(countryData.currencies)}
+                          </Text>
+                        </>
+                      )}
+                    </TabPanel>
+                    <TabPanel>Under construction</TabPanel>
                   </TabPanels>
                 </Tabs>
 
                 <Box className="inputContainer" display="flex" w="400px">
-                 <form name="citySearch" onSubmit={(e) => searchByLocation(e,place)} style={{width:'90%', display:'flex'}}>
-                 <InputGroup w="80%">
-                    <InputLeftElement
-                      pointerEvents="none"
-                      children={<GoLocation color="gray.300" />}
-                    />
-                    <InputRightElement
-                    mr='25px'
-                      cursor="pointer"
-                      fontSize="25px"
-                      onClick={() => setPlace("")}
-                      children={<LiaWindowCloseSolid color="white" />}
-                    />
-                    <Input
-                      w="95%"
-                      type="text"
-                      placeholder="Buscar por ubicación"
-                      _placeholder={{color:'white'}}
-                      value={place}
-                      onChange={handleOnChange}
-                      list="countries"
-                    />
-                    <datalist id="countries">
-                      {countries.countries.map((e, i) => (
-                        <option key={i} value={e.capital_en} />
-                      ))}
-                    </datalist>
-                  </InputGroup>
-                  <Button ml="5px" w='20%' onClick={(e) => searchByLocation(e,place)}>
-                    Search
-                  </Button>
-                 </form>
+                  <FormControl>
+                    <form
+                      name="citySearch"
+                      onSubmit={(e) => searchByLocation(e, place)}
+                      style={{ width: "90%", display: "flex" }}
+                    >
+                      <InputGroup w="80%">
+                        <InputLeftElement
+                          pointerEvents="none"
+                          children={<GoLocation color="gray.300" />}
+                        />
+                        <InputRightElement
+                          mr="25px"
+                          cursor="pointer"
+                          fontSize="25px"
+                          onClick={() => setPlace("")}
+                          children={<LiaWindowCloseSolid color="white" />}
+                        />
+                        <Input
+                          w="95%"
+                          type="text"
+                          placeholder="Buscar por ubicación"
+                          _placeholder={
+                            contrast ? { color: "black" } : { color: "white" }
+                          }
+                          value={place}
+                          onChange={handleOnChange}
+                          list="countries"
+                        />
+                        {!isPlaceAvail && (
+                          <HStack
+                            position="absolute"
+                            bottom="-25px"
+                            fontSize="15px"
+                            fontWeight="bold"
+                          >
+                            {" "}
+                            <Circle w="5px" h="5px" bgColor="red" />
+                            <FormHelperText color="red" lineHeight="1">
+                              {" "}
+                              Unable to find this location.
+                            </FormHelperText>
+                          </HStack>
+                        )}
+                        <datalist id="countries">
+                          {countries.countries.map((e, i) => (
+                            <option key={i} value={e.capital_en} />
+                          ))}
+                        </datalist>
+                      </InputGroup>
+                      <Button
+                        ml="5px"
+                        w="20%"
+                        onClick={(e) => searchByLocation(e, place)}
+                      >
+                        Search
+                      </Button>
+                    </form>
+                  </FormControl>
                 </Box>
               </Box>
 
@@ -138,11 +190,11 @@ const Home = () => {
                 mb="50px"
                 bgColor="#ffffff90"
                 borderRadius="18px"
-                display='flex'
-                flexDirection='column'
-                gap='5px'
+                display="flex"
+                flexDirection="column"
+                gap="5px"
               >
-                <Center  >
+                <Center>
                   <Heading>Weather app</Heading>
                 </Center>
                 <Center>{weather.name}</Center>
@@ -161,14 +213,20 @@ const Home = () => {
                       h="120px"
                       src={
                         weather &&
-                        ((weather.weather[0].main === "Thunderstorm" &&
-                          objImages.stromImg) ||
-                          (weather.weather[0].main === "Rain" &&
-                            objImages.rainImg) ||
-                          (weather.weather[0].main === "Clear" &&
-                            objImages.sunImg) ||
-                          (weather.weather[0].main === "Clouds" &&
-                            objImages.cloudImg))
+                          ((weather.weather[0].main === "Thunderstorm" &&
+                            objImages.stromImg) ||
+                            (weather.weather[0].main === "Rain" &&
+                              objImages.rainImg) ||
+                            (weather.weather[0].main === "Clear" &&
+                              objImages.sunImg) ||
+                            (weather.weather[0].main === "Clouds" &&
+                              objImages.cloudImg) ||
+                            (weather.weather[0].main === "Sand" &&
+                              objImages.sandImg) ||
+                            (weather.weather[0].main === "Dust" &&
+                              objImages.sandImg) ||
+                            weather.weather[0].main === "Mist" ||
+                            ("Haze" && objImages.mistImg))
                       }
                     />{" "}
                   </Box>
@@ -225,7 +283,7 @@ const Home = () => {
                 display="flex"
                 flexDirection="column"
                 justifyContent="space-between"
-                w='100vw'
+                w="100vw"
                 h="100vh"
                 paddingX="50px"
                 backdropFilter="blur(0px)"
@@ -236,47 +294,76 @@ const Home = () => {
                   display="flex"
                   w="100%"
                 >
-                  <form name="citySearch" onSubmit={(e) => searchByLocation(e,place)} style={{width:'90%', display:'flex'}}><InputGroup w="80%" color='white'>
-                    <InputLeftElement
-                      pointerEvents="none"
-                      children={<GoLocation color="gray.300" />}
-                    />
-                    <InputRightElement
-                    mr='18px'
-                      cursor="pointer"
-                      fontSize="25px"
-                      onClick={() => setPlace("")}
-                      children={<LiaWindowCloseSolid color="white" />}
-                    />
-                    <Input
-                      w="95%"
-                      type="text"
-                      placeholder="Buscar por ubicación"
-                      _placeholder={{color:'white'}}
-                      value={place}
-                      onChange={handleOnChange}
-                      list="countries"
-                    />
-                    <datalist id="countries">
-                      {countries.countries.map((e, i) => (
-                        <option key={i} value={e.capital_en} />
-                      ))}
-                    </datalist>
-                  </InputGroup>
-                  <Button ml="5px" onClick={() => searchByLocation(place)}>
-                    Search
-                  </Button></form>
-                  
+                  <FormControl>
+                    <form
+                      name="citySearch"
+                      onSubmit={(e) => searchByLocation(e, place)}
+                      style={{ width: "90%", display: "flex" }}
+                    >
+                      <InputGroup w="80%">
+                        <InputLeftElement
+                          pointerEvents="none"
+                          children={<GoLocation color="gray.300" />}
+                        />
+                        <InputRightElement
+                          mr="25px"
+                          cursor="pointer"
+                          fontSize="25px"
+                          onClick={() => setPlace("")}
+                          children={<LiaWindowCloseSolid color="white" />}
+                        />
+                        <Input
+                          w="95%"
+                          type="text"
+                          placeholder="Buscar por ubicación"
+                          _placeholder={
+                            contrast ? { color: "black" } : { color: "white" }
+                          }
+                          color={contrast ? "black" : "white"}
+                          value={place}
+                          onChange={handleOnChange}
+                          list="countries"
+                        />
+                        {!isPlaceAvail && (
+                          <HStack
+                            position="absolute"
+                            top="-30px"
+                            fontSize="15px"
+                            fontWeight="bold"
+                          >
+                            {" "}
+                            <Circle w="5px" h="5px" bgColor="red" />
+                            <FormHelperText color="red" lineHeight="1">
+                              {" "}
+                              Unable to find this location.
+                            </FormHelperText>
+                          </HStack>
+                        )}
+                        <datalist id="countries">
+                          {countries.countries.map((e, i) => (
+                            <option key={i} value={e.capital_en} />
+                          ))}
+                        </datalist>
+                      </InputGroup>
+                      <Button
+                        ml="5px"
+                        w="20%"
+                        onClick={(e) => searchByLocation(e, place)}
+                      >
+                        Search
+                      </Button>
+                    </form>
+                  </FormControl>
                 </Box>
 
                 <Box
                   w="100%"
-                  h='80vh'
-                  display='flex'
-                  flexDirection='column'
-                  justifyContent='center'
-                  alignItems={'center'}
-                  gap={'5px'}
+                  h="80vh"
+                  display="flex"
+                  flexDirection="column"
+                  justifyContent="center"
+                  alignItems={"center"}
+                  gap={"5px"}
                   mt="20px"
                   mb="50px"
                   bgColor="#ffffff90"
@@ -285,7 +372,9 @@ const Home = () => {
                   <Center>
                     <Heading>Weather app</Heading>
                   </Center>
-                  <Center>{weather.name} / {countryData?.name.common}</Center>
+                  <Center>
+                    {weather.name} / {countryData?.name.common}
+                  </Center>
                   <Center>
                     <Icon as={GoLocation} fontSize="20px" />
                   </Center>
@@ -308,7 +397,13 @@ const Home = () => {
                             (weather.weather[0].main === "Clear" &&
                               objImages.sunImg) ||
                             (weather.weather[0].main === "Clouds" &&
-                              objImages.cloudImg))
+                              objImages.cloudImg) ||
+                            (weather.weather[0].main === "Sand" &&
+                              objImages.sandImg) ||
+                            (weather.weather[0].main === "Dust" &&
+                              objImages.sandImg) ||
+                            weather.weather[0].main === "Mist" ||
+                            ("Haze" && objImages.mistImg))
                         }
                       />{" "}
                     </Box>

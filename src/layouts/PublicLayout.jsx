@@ -7,7 +7,7 @@ import { objImages } from "../config/images";
 import { AnimatePresence, motion } from "framer-motion";
 
 const PublicLayout = () => {
-  const { weather } = useAuthContext();
+  const { weather,contrast,setContrast } = useAuthContext();
   const [currentBackgroundImage, setCurrentBackgroundImage] = useState(null);
   const [animateBackground, setAnimateBackground] = useState(false);
 
@@ -18,19 +18,29 @@ const PublicLayout = () => {
       switch (mainWeather) {
         case 'Clouds':
           setCurrentBackgroundImage(objImages.bgImageCloudy);
+          setContrast(false)
           break;
         case 'Rain':
           setCurrentBackgroundImage(objImages.bgImageRain);
+          setContrast(false)
           break;
         case 'Clear':
           setCurrentBackgroundImage(objImages.bgImageSunny);
+          setContrast(false)
           break;
         case 'Thunderstorm':
           setCurrentBackgroundImage(objImages.bgImageStorm);
+          setContrast(false)
+          break;
+          case 'Sand':
+          case 'Dust':
+          setCurrentBackgroundImage(objImages.bgImageSand);
+          setContrast(false)
           break;
         case 'Mist':
         case 'Haze':
           setCurrentBackgroundImage(objImages.bgImageMist);
+          setContrast(true)
           break;
         default:
           setCurrentBackgroundImage(null); 
