@@ -7,7 +7,7 @@ import { objImages } from "../config/images";
 import { AnimatePresence, motion } from "framer-motion";
 
 const PublicLayout = () => {
-  const { weather,contrast,setContrast } = useAuthContext();
+  const { weather,setContrast } = useAuthContext();
   const [currentBackgroundImage, setCurrentBackgroundImage] = useState(null);
   const [animateBackground, setAnimateBackground] = useState(false);
 

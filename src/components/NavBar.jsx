@@ -1,12 +1,10 @@
 import {
   Box,
   Button,
-  Circle,
   HStack,
   Icon,
   Spinner,
   Text,
-  useDisclosure,
   useMediaQuery,
   useToast,
 } from "@chakra-ui/react";

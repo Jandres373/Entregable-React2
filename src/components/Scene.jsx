@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, background } from "@chakra-ui/react";
-import { GizmoHelper, GizmoViewport, OrbitControls, PerspectiveCamera, Stars } from "@react-three/drei";
+import { Box } from "@chakra-ui/react";
+import { OrbitControls, PerspectiveCamera, Stars } from "@react-three/drei";
 import { Suspense } from "react";
 import { Model } from "../components/Model";
 import { Canvas } from "@react-three/fiber";
